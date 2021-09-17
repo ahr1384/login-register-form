@@ -1,6 +1,6 @@
 <?php
 
-define('SITE_URL', __DIR__ .DIRECTORY_SEPARATOR);
+define('SITE_URL', __DIR__ . DIRECTORY_SEPARATOR);
 
 
 function randomString($length = 18)
@@ -18,8 +18,8 @@ function randomString($length = 18)
 
 function addUser(string $username, $password): string
 {
-    
-    $urlContents = SITE_URL . 'assets'.DIRECTORY_SEPARATOR.'information'.DIRECTORY_SEPARATOR.'users.json';
+
+    $urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
 
     $jsonContents = file_get_contents($urlContents);
 
@@ -35,4 +35,34 @@ function addUser(string $username, $password): string
     file_put_contents($urlContents, '[' . $oldContents . ',' . $newContents . ']');
 
     return 'user Added';
-};
+}
+
+
+
+function loginUser(string $username, $password)
+{
+
+    $urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
+
+    $jsonContents = file_get_contents($urlContents);
+
+    $userContents = json_decode($jsonContents, true);
+
+    $searchInUsers = array_search($username, array_column($userContents, "username"));
+
+    $loginUser = '';
+
+    if ($searchInUsers == !false) {
+        $passwordVerify = (password_verify($password, $userContents[$searchInUsers]["password"]));
+
+        if ($passwordVerify === true) {
+            $loginUser = 'password_verified';
+        } else {
+            $loginUser = 'password_not_verified';
+        }
+    } else {
+        $loginUser = 'username_not_verified';
+    }
+
+    return $loginUser;
+}
