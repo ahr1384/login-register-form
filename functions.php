@@ -52,7 +52,9 @@ function loginUser(string $username, $password)
 
     $loginUser = '';
 
-    if ($searchInUsers == !false) {
+    if ($searchInUsers == false) {
+        $loginUser = 'username_not_verified';
+    } else {
         $passwordVerify = (password_verify($password, $userContents[$searchInUsers]["password"]));
 
         if ($passwordVerify === true) {
@@ -60,8 +62,6 @@ function loginUser(string $username, $password)
         } else {
             $loginUser = 'password_not_verified';
         }
-    } else {
-        $loginUser = 'username_not_verified';
     }
 
     return $loginUser;
