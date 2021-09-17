@@ -1,5 +1,6 @@
 <?php
 
+define('SITE_URL', __DIR__ .DIRECTORY_SEPARATOR);
 
 
 function randomString($length = 18)
@@ -15,13 +16,10 @@ function randomString($length = 18)
 }
 
 
-
-function addUser(string $username, $password): bool
+function addUser(string $username, $password): string
 {
-
-    $siteURL = 'http://localhost/php/php-projects/login&register-form';
-
-    $urlContents = $siteURL . '/assets/information/users.json';
+    
+    $urlContents = SITE_URL . 'assets'.DIRECTORY_SEPARATOR.'information'.DIRECTORY_SEPARATOR.'users.json';
 
     $jsonContents = file_get_contents($urlContents);
 
@@ -36,5 +34,5 @@ function addUser(string $username, $password): bool
 
     file_put_contents($urlContents, '[' . $oldContents . ',' . $newContents . ']');
 
-    return true;
+    return 'user Added';
 };

@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -225,7 +225,7 @@
     </script>
 </body>
 
-</html> -->
+</html> 
 
 <?php
 
@@ -240,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     if ($typeLogin == 'login') {
         echo 'login';
     } elseif ($typeLogin == 'register') {
-        addUser($username, $password);
+        echo addUser($username, $password);
     } else {
         echo 'user...';
     }

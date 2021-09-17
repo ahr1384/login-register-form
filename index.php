@@ -1,7 +1,9 @@
 <?php
 
-// header('Location: http://localhost/php/php-projects/login&register-form/login');
+// require('functions.php');
 
-require('functions.php');
+$i = true;
 
-echo addUser(1212, 1245);
+if ($i === true){
+    header('Location: http://localhost/php/php-projects/login-register-form/login');
+}
