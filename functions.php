@@ -19,7 +19,9 @@ function randomString($length = 18)
 function addUser(string $username, $password): bool
 {
 
-    $urlContents = 'http://localhost/php/php-projects/login&register-form/assets/information/users.json';
+    $siteURL = 'http://localhost/php/php-projects/login&register-form';
+
+    $urlContents = $siteURL . '/assets/information/users.json';
 
     $jsonContents = file_get_contents($urlContents);
 
