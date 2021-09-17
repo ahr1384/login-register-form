@@ -225,28 +225,4 @@
     </script>
 </body>
 
-</html> 
-
-<?php
-
-require('../functions.php');
-
-if ($_SERVER["REQUEST_METHOD"] == 'POST') {
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $typeLogin = $_POST['type'];
-
-    if ($typeLogin == 'login') {
-        echo 'login';
-    } elseif ($typeLogin == 'register') {
-        echo addUser($username, $password);
-    } else {
-        echo 'user...';
-    }
-} else {
-    echo 'profile';
-}
-
-
-?>
+</html>
