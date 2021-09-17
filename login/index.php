@@ -48,7 +48,7 @@ switch ($error) {
         <form class="form1" action="../redirect.php" method="post">
             <input class="un" type="text" name="username" placeholder="Username" required>
             <input class="pass" type="password" name="password" placeholder="Password" required>
-            <div class="error"><?php echo $display_error ?></div>
+            <div class="error-field"><?php echo $display_error ?></div>
             <div class="btn-form">
                 <input class="submit" type="submit" name="type" value="login">
                 <input class="submit" type="submit" name="type" value="register">
