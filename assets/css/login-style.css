@@ -1,0 +1,109 @@
+@font-face {
+    font-family: DMSans;
+    src: url(../fonts/DMSans-Regular.ttf);
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: DMSans;
+    src: url(../fonts/DMSans-Medium.ttf);
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: DMSans;
+    src: url(../fonts/DMSans-Bold.ttf);
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #ede7ff;
+    font-family: DMsans;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.main {
+    background-color: #FFFFFF;
+    width: 400px;
+    height: 350px;
+    margin: 7em 0;
+    border-radius: 1.5em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+}
+
+.sign {
+    padding-top: 40px;
+    color: #4318FF;
+    font-weight: bold;
+    font-size: 23px;
+    text-align: center;
+}
+
+.un,
+.pass {
+    width: 76%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    text-align: center;
+    margin-bottom: 27px;
+    transition: 0.3s;
+    font-family: DMsans;
+}
+
+.un:focus,
+.pass:focus {
+    border: 2px solid rgba(0, 0, 0, 0.18) !important;
+
+}
+
+.form1 {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.btn-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.submit {
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(135deg, #868CFF 0%, #2e03ec 100%);
+    border: 0;
+    padding: 10px 40px;
+    font-size: 13px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    width: 45%;
+    transition: 0.4s ease-out;
+    font-family: DMsans;
+    background-size:1px 100px;
+}
+
+.submit:hover {
+    background-position:100px;
+}
