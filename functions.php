@@ -24,11 +24,14 @@ function addUser(string $username, $password): string
 
     $jsonContents = file_get_contents($urlContents);
 
+    $randomCokiePass = randomString();
+
     $newContents =
         "{" .
         '"username"'   . ":" . '"' . $username      . '"' . "," .
         '"password"'   . ":" . '"' . password_hash($password, null, []) . '"' . "," .
-        '"cokie-pass"' . ":" . '"' . password_hash(randomString(), null, []) . '"' .
+        '"cokie-pass"'   . ":" . '"' . $randomCokiePass . '"' . "," .
+        '"cokie-pass-hash"' . ":" . '"' . password_hash($randomCokiePass, null, []) . '"' .
         "}";
 
     $oldContents = str_replace(['[', ']'], '', $jsonContents);
