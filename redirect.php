@@ -1,7 +1,6 @@
 <?php
 
-require('functions.php');
-
+require('./functions.php');
 
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
 
@@ -17,7 +16,7 @@ switch ($typeLogin) {
     case 'login':
         switch (loginUser($username, $password)) {
             case 'username_not_verified':
-                header('Location: login/?error=3');
+                header('Location: login/?error=2');
                 break;
             case 'password_verified':
                 setcookie('user-login', $username);
@@ -25,14 +24,28 @@ switch ($typeLogin) {
                 header('Location: profile');
                 break;
             case 'password_not_verified':
-                header('Location: login/?error=4');
+                header('Location: login/?error=3&username=' . $username);
                 break;
         }
         break;
 
     case 'register':
-        addUser($username, $password);
-        header('Location: profile');
+        switch (addUser($username, $password)) {
+            case 'user_added':
+                addUser($username, $password);
+                setcookie('user-login', $username);
+                setcookie('user-login', $username, time() + 86400);
+                header('Location: profile');
+                break;
+
+            case 'user_not_added':
+                header('Location: login/?error=5');
+                break;
+
+            default:
+                header('Location: login/?error=1');
+                break;
+        }
         break;
 
     default:
