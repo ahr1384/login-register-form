@@ -1,3 +1,20 @@
+<?php
+require('../functions.php');
+
+if(!isset($_COOKIE['user-login'])){
+    header('Location: ../login/?error=1');
+}
+
+
+$urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
+
+$jsonContents = file_get_contents($urlContents);
+
+$userContents = json_decode($jsonContents, true);
+
+$searchInUsers = array_search($_COOKIE['user-login'], array_column($userContents, "username"));
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +22,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/dashboard-style.css">
@@ -24,15 +38,14 @@
             <img src="../assets/img/Logo.svg" alt="">
         </div>
         <div class="menu-link d-flex flex-column align-items-center w-100">
-            <a class="btn w-100 text-start active" href="#"><i
-                    class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+            <a class="btn w-100 text-start active" href="#"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
             <a class="btn w-100 text-start" href="#"><i class="fas fa-chart-line"></i><span>Activity</span></a>
             <a class="btn w-100 text-start" href="#"><i class="fas fa-book-reader"></i><span>Library</span></a>
             <a class="btn w-100 text-start" href="#"><i class="fas fa-shield-alt"></i><span>Security</span></a>
             <a class="btn w-100 text-start" href="#"><i class="far fa-calendar-alt"></i><span>Schedules</span></a>
             <a class="btn w-100 text-start" href="#"><i class="fas fa-wallet"></i><span>Payouts</span></a>
             <a class="btn w-100 text-start" href="#"><i class="fas fa-cog"></i><span>Settings</span></a>
-            <a class="btn w-100 text-start" href="#"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
+            <a class="btn w-100 text-start" href="../logout.php"><i class="fas fa-sign-out-alt"></i><span>Log Out</span></a>
         </div>
     </div>
 
@@ -43,7 +56,7 @@
     <div class="content">
         <div class="info-header d-flex flex-row justify-content-between">
             <div>
-                <p class="fw-bold">Hi Andrei,</p>
+                <p class="fw-bold">Hi <?php echo $userContents[$searchInUsers]["username"] ?>,</p>
                 <h2 class="fw-bold">Welcome to Venus!</h2>
             </div>
             <div class="search-header align-self-end">
@@ -111,8 +124,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    <div
-                        class="cardbox right-cardbox p-4 d-flex bg-white flex-column align-items-start justify-content-start">
+                    <div class="cardbox right-cardbox p-4 d-flex bg-white flex-column align-items-start justify-content-start">
                         <img src="../assets/img/fingerprint.svg" alt="">
                         <h2>Control card security in-app with a tap</h2>
                         <p>Discover our cards benefits, with one tap.</p>
@@ -149,8 +161,7 @@
                             </div>
                         </div>
                         <div class="text-end link-view-all mt-link">
-                            <a href="#" class="text-primary btn"><span>View all</span><i
-                                    class="mx-2 fas fa-arrow-right"></i></a>
+                            <a href="#" class="text-primary btn"><span>View all</span><i class="mx-2 fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -178,8 +189,7 @@
                                 </div>
                             </div>
                             <div class="text-end link-view-all">
-                                <a href="#" class="text-primary btn"><span>View all</span><i
-                                        class="mx-2 fas fa-arrow-right"></i></a>
+                                <a href="#" class="text-primary btn"><span>View all</span><i class="mx-2 fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -190,7 +200,7 @@
                             <img src="../assets/img/Avatar.svg" alt="">
                         </div>
                         <div class="name-profile text-center">
-                            <h3>Charles Robbie</h3>
+                            <h3><?php echo $userContents[$searchInUsers]["username"] ?></h3>
                             <div>
                                 <i class="fa fa-map-marker"></i>
                                 <span>New York, USA</span>

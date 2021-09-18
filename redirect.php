@@ -20,6 +20,8 @@ switch ($typeLogin) {
                 header('Location: login/?error=3');
                 break;
             case 'password_verified':
+                setcookie('user-login', $username);
+                setcookie('user-login', $username, time() + 86400);
                 header('Location: profile');
                 break;
             case 'password_not_verified':
