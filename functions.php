@@ -3,7 +3,7 @@
 define('SITE_URL', __DIR__ . DIRECTORY_SEPARATOR);
 
 
-function randomString($length = 18)
+function randomString($length = 16)
 {
     $str = "";
     $characters = array_merge(range('A', 'Z'), range('a', 'z'), range('0', '9'), range('@', '-'));
@@ -28,10 +28,9 @@ function addUser(string $username, $password): string
 
     $newContents =
         "{" .
-        '"username"'   . ":" . '"' . $username      . '"' . "," .
-        '"password"'   . ":" . '"' . password_hash($password, null, []) . '"' . "," .
-        '"cokie-pass"'   . ":" . '"' . $randomCokiePass . '"' . "," .
-        '"cokie-pass-hash"' . ":" . '"' . password_hash($randomCokiePass, null, []) . '"' .
+        '"username"'   . ":" . '"' . $username . '"' . "," .
+        '"password"'   . ":" . '"' . password_hash($password,PASSWORD_DEFAULT) . '"' . "," .
+        '"cokie-pass"' . ":" . '"' . $randomCokiePass . '"' .
         "}";
 
     $oldContents = str_replace(['[', ']'], '', $jsonContents);
