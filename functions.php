@@ -2,6 +2,9 @@
 
 define('SITE_URL', __DIR__ . DIRECTORY_SEPARATOR);
 
+define('URL_CONTENT', SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json');
+
+
 
 function randomString($length = 16)
 {
@@ -17,27 +20,56 @@ function randomString($length = 16)
 
 
 
+function checkUser(string $username): bool | int
+{
+    $jsonContents = file_get_contents(URL_CONTENT);
+
+    $userContents = json_decode($jsonContents, true);
+
+    $searchInUsers = array_search($username, array_column($userContents, "username"));
+
+    // $ii = '';
+
+    // if( $searchInUsers === false){
+    //     $ii = 'falseeeee';
+    // } else {
+    //     $ii = 'trueeeee';
+    // }
+
+    return $searchInUsers;
+}
+
+
+
 function addUser(string $username, $password): string
 {
 
-    $urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
+    $userStatus = '';
 
-    $jsonContents = file_get_contents($urlContents);
+    $chekUserName = checkUser($username);
 
-    $randomCokiePass = randomString();
+    if ($chekUserName === false) {
 
-    $newContents =
-        "{" .
-        '"username"'   . ":" . '"' . $username . '"' . "," .
-        '"password"'   . ":" . '"' . password_hash($password,PASSWORD_DEFAULT) . '"' . "," .
-        '"cokie-pass"' . ":" . '"' . $randomCokiePass . '"' .
-        "}";
+        $jsonContents = file_get_contents(URL_CONTENT);
 
-    $oldContents = str_replace(['[', ']'], '', $jsonContents);
+        $newContents =
+            "{" .
+            '"username"'   . ":" . '"' . $username . '"' . "," .
+            '"password"'   . ":" . '"' . password_hash($password, PASSWORD_DEFAULT) . '"' . "," .
+            '"cookie-value"' . ":" . '"' . randomString() . '"' .
+            "}";
 
-    file_put_contents($urlContents, '[' . $oldContents . ',' . $newContents . ']');
+        $oldContents = str_replace(['[', ']'], '', $jsonContents);
 
-    return 'user Added';
+        file_put_contents(URL_CONTENT, '[' . $oldContents . ',' . $newContents . ']');
+
+        $userStatus = 'user_added';
+    } else {
+        $userStatus = 'user_not_added';
+    }
+
+
+    return $userStatus;
 }
 
 
@@ -45,9 +77,7 @@ function addUser(string $username, $password): string
 function loginUser(string $username, $password)
 {
 
-    $urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
-
-    $jsonContents = file_get_contents($urlContents);
+    $jsonContents = file_get_contents(URL_CONTENT);
 
     $userContents = json_decode($jsonContents, true);
 
@@ -55,7 +85,7 @@ function loginUser(string $username, $password)
 
     $loginUser = '';
 
-    if ($searchInUsers == false) {
+    if ($searchInUsers === false) {
         $loginUser = 'username_not_verified';
     } else {
         $passwordVerify = (password_verify($password, $userContents[$searchInUsers]["password"]));
@@ -69,3 +99,4 @@ function loginUser(string $username, $password)
 
     return $loginUser;
 }
+
