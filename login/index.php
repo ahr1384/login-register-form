@@ -11,6 +11,10 @@
 
 <?php
 
+if (isset($_COOKIE['user-login'])) {
+    header('Location: ../profile');
+}
+
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == 'GET') {
@@ -34,6 +38,10 @@ switch ($error) {
 
     case 4:
         $display_error = 'Your password is incorrect';
+        break;
+
+    case 5:
+        $display_error = 'You are logged out of your profile';
         break;
 
     default:
