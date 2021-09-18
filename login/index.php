@@ -20,6 +20,7 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == 'GET') {
 
     @$error = $_GET['error'];
+    @$username = $_GET['username'];
 }
 
 
@@ -29,19 +30,18 @@ switch ($error) {
         break;
 
     case 2:
-        $display_error = 'Please enter username and password';
-        break;
-
-    case 3:
         $display_error = 'Your username is incorrect';
         break;
 
-    case 4:
+    case 3:
         $display_error = 'Your password is incorrect';
         break;
 
-    case 5:
+    case 4:
         $display_error = 'You are logged out of your profile';
+        break;
+    case 5:
+        $display_error = 'Username already exists';
         break;
 
     default:
@@ -54,7 +54,7 @@ switch ($error) {
     <div class="main">
         <h1 class="sign">login & register</h1>
         <form class="form1" action="../redirect.php" method="post">
-            <input class="un" type="text" name="username" placeholder="Username" required>
+            <input class="un" value="<?php echo $username ?>" type="text" name="username" placeholder="Username" required>
             <input class="pass" type="password" name="password" placeholder="Password" required>
             <div class="error-field"><?php echo $display_error ?></div>
             <div class="btn-form">

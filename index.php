@@ -1,5 +1,9 @@
 <?php
 
-require('functions.php');
+// require('functions.php');
 
-header('Location: login/?error=1');
+if (isset($_COOKIE['user-login'])) {
+    header('Location: profile');
+} else {
+    header('Location: login/?error=1');
+}

@@ -1,8 +1,8 @@
 <?php
-require('../functions.php');
+include(__DIR__ . '/../functions.php');
 
-if(!isset($_COOKIE['user-login'])){
-    header('Location: ../login/?error=1');
+if (!isset($_COOKIE['user-login'])) {
+    header('Location: ./../login/?error=1');
 }
 
 
