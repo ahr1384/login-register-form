@@ -1,12 +1,21 @@
 <?php
 
-define('SITE_URL', __DIR__ . DIRECTORY_SEPARATOR);
 
-define('URL_CONTENT', SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json');
-
+define('URL_CONTENT', __DIR__ . '/assets/information/users.json');
 
 
-function randomString($length = 16)
+function userContents()
+{
+    @$jsonContents = file_get_contents(URL_CONTENT);
+
+    $userContents = json_decode($jsonContents, true);
+
+    return $userContents;
+}
+
+
+
+function randomString($length = 38)
 {
     $str = "";
     $characters = array_merge(range('A', 'Z'), range('a', 'z'), range('0', '9'), range('@', '-'));
@@ -22,9 +31,8 @@ function randomString($length = 16)
 
 function checkUser(string $username): bool | int
 {
-    $jsonContents = file_get_contents(URL_CONTENT);
 
-    $userContents = json_decode($jsonContents, true);
+    $userContents = userContents();
 
     $searchInUsers = array_search($username, array_column($userContents, "username"));
 
@@ -77,9 +85,7 @@ function addUser(string $username, $password): string
 function loginUser(string $username, $password)
 {
 
-    $jsonContents = file_get_contents(URL_CONTENT);
-
-    $userContents = json_decode($jsonContents, true);
+    $userContents = userContents();
 
     $searchInUsers = array_search($username, array_column($userContents, "username"));
 
@@ -87,6 +93,7 @@ function loginUser(string $username, $password)
 
     if ($searchInUsers === false) {
         $loginUser = 'username_not_verified';
+        return $loginUser;
     } else {
         $passwordVerify = (password_verify($password, $userContents[$searchInUsers]["password"]));
 
@@ -100,3 +107,43 @@ function loginUser(string $username, $password)
     return $loginUser;
 }
 
+
+
+function checkUserInfo(string $un): bool | array
+{
+    $unchek = checkUser($un);
+
+    $userStatus = '';
+
+    if ($unchek === false) {
+        $userStatus = false;
+        return $userStatus;
+    }
+
+    $userContents = userContents();
+
+    $username = $userContents[$unchek]["username"];
+    $password = $userContents[$unchek]["password"];
+    $cookieValue = $userContents[$unchek]["cookie-value"];
+
+    $userStatus = [$username, $password, $cookieValue];
+
+    return $userStatus;
+}
+
+
+
+function checkUserCookieValue(string $cv): string
+{
+    $userContents = userContents();
+
+    $searchInUsers = array_search($cv, array_column($userContents, "cookie-value"));
+
+    if ($searchInUsers === false) {
+        setcookie('identify', '', time() - 43200);
+        header('Location: ./login');
+        return "";
+    }
+
+    return $searchInUsers;
+}
