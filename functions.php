@@ -141,7 +141,7 @@ function checkUserCookieValue(string $cv): string
 
     if ($searchInUsers === false) {
         setcookie('identify', '', time() - 43200);
-        header('Location: ./login');
+        header('Location: ../logout.php?error=123');
         return "";
     }
 

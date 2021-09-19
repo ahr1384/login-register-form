@@ -11,3 +11,6 @@ if (isset($_COOKIE['identify'])) {
 if (isset($_GET['file'])) {
     header('Location: login/?file=file_not_found');
 }
+if (isset($_GET['error'])) {
+    header('Location: login/?error=1');
+}
