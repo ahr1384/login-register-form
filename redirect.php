@@ -2,14 +2,22 @@
 
 require('./functions.php');
 
-if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+if (userContents() === NULL) {
+    setcookie('identify', '', time() - 43200);
+    header('Location: login/?file=file_not_found');
+    return;
+}
+
+if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['type'])) {
 
     $username = $_POST['username'];
     $password = $_POST['password'];
     $typeLogin = $_POST['type'];
 } else {
     header('Location: login/?error=1');
+    setcookie('identify', '', time() - 43200);
 }
+
 
 
 switch ($typeLogin) {
@@ -19,8 +27,7 @@ switch ($typeLogin) {
                 header('Location: login/?error=2');
                 break;
             case 'password_verified':
-                setcookie('user-login', $username);
-                setcookie('user-login', $username, time() + 86400);
+                setcookie('identify', checkUserInfo($username)[2], time() + 43200, '', '', '', true);
                 header('Location: profile');
                 break;
             case 'password_not_verified':
@@ -33,8 +40,7 @@ switch ($typeLogin) {
         switch (addUser($username, $password)) {
             case 'user_added':
                 addUser($username, $password);
-                setcookie('user-login', $username);
-                setcookie('user-login', $username, time() + 86400);
+                setcookie('identify', checkUserInfo($username)[2], time() + 43200, '', '', '', true);
                 header('Location: profile');
                 break;
 

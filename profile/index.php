@@ -1,18 +1,25 @@
 <?php
-include(__DIR__ . '/../functions.php');
+require(__DIR__ . '/../functions.php');
 
-if (!isset($_COOKIE['user-login'])) {
+if (userContents() === NULL) {
+    header('Location: ../logout.php?file=123');
+    return;
+}
+
+if (!isset($_COOKIE['identify'])) {
     header('Location: ./../login/?error=1');
 }
 
+$userContents = userContents();
 
-$urlContents = SITE_URL . 'assets' . DIRECTORY_SEPARATOR . 'information' . DIRECTORY_SEPARATOR . 'users.json';
+if ($userContents === false) {
+    setcookie('identify', '', time() - 43200);
+    header('Location: ./../login/?error=1');
+    return;
+}
 
-$jsonContents = file_get_contents($urlContents);
-
-$userContents = json_decode($jsonContents, true);
-
-$searchInUsers = array_search($_COOKIE['user-login'], array_column($userContents, "username"));
+$use = (checkUserCookieValue($_COOKIE['identify']));
+$username = $userContents[$use]["username"];
 
 ?>
 <!DOCTYPE html>
@@ -56,7 +63,7 @@ $searchInUsers = array_search($_COOKIE['user-login'], array_column($userContents
     <div class="content">
         <div class="info-header d-flex flex-row justify-content-between">
             <div>
-                <p class="fw-bold">Hi <?php echo $userContents[$searchInUsers]["username"] ?>,</p>
+                <p class="fw-bold">Hi <?php echo $username ?>,</p>
                 <h2 class="fw-bold">Welcome to Venus!</h2>
             </div>
             <div class="search-header align-self-end">
@@ -200,7 +207,7 @@ $searchInUsers = array_search($_COOKIE['user-login'], array_column($userContents
                             <img src="../assets/img/Avatar.svg" alt="">
                         </div>
                         <div class="name-profile text-center">
-                            <h3><?php echo $userContents[$searchInUsers]["username"] ?></h3>
+                            <h3><?php echo $username ?></h3>
                             <div>
                                 <i class="fa fa-map-marker"></i>
                                 <span>New York, USA</span>

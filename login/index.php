@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login & register Page</title>
-    <link rel="stylesheet" href="../assets/css/login-style.css">
-</head>
-
 <?php
 
-if (isset($_COOKIE['user-login'])) {
+if (isset($_COOKIE['identify'])) {
     header('Location: ../profile');
 }
 
@@ -21,6 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == 'GET') {
 
     @$error = $_GET['error'];
     @$username = $_GET['username'];
+}
+$file = '';
+
+if (isset($_GET['file'])) {
+    http_response_code(500);
+    $file = '<div class="text-file"><div><span>Error 500</span> <br/> <br/> <br/> <p>Internal Server Error<br/> <br/> inform to management <br/> <br/> and <a href="../login">click here</a> to refresh the page</p></div></div>';
 }
 
 
@@ -50,8 +45,24 @@ switch ($error) {
 
 ?>
 
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login & register Page</title>
+    <link rel="stylesheet" href="../assets/css/login-style.css">
+</head>
+
 <body>
+    <a href="login"></a>
+    <?php echo $file ?>
     <div class="main">
+
         <h1 class="sign">login & register</h1>
         <form class="form1" action="../redirect.php" method="post">
             <input class="un" value="<?php echo $username ?>" type="text" name="username" placeholder="Username" required>
